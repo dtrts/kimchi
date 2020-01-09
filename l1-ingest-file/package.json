@@ -1,0 +1,22 @@
+{
+  "name": "l1-ingest-file",
+  "version": "1.0.0",
+  "description": "Lambda to pick up a new file uploaded to s3 bucket. insert record into dynamoDB. Send each row individually into an SNS.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dtrts/kimchi.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "npm install --production && npm prune --production && zip code.zip -r -q index.js node_modules"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.598.0"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
