@@ -41,7 +41,9 @@ Since we will be building resources in multiple environments the state of each e
 This is achieved using [workspaces](https://www.terraform.io/docs/state/workspaces.html)
 
 `$ terraform workspace new aws` - If using multiple aws accounts, create a workspace for each.
+`$ terraform init aws`
 `$ terraform workspace new localstack`
+`$ terraform init localstack`
 
 ### Folder structure
 
@@ -75,6 +77,10 @@ Update singe aws resources:
 - Note: aws/main.tf contains the profile attribute in the provider object.
 - `terraform workspace select aws`
 - `terraform apply aws`
+
+Localstack has been restarted:
+
+- `rm terraform.tf.state.d
 
 Update two aws accounts using the environment variable:
 
