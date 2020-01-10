@@ -4,6 +4,6 @@ module "core" {
 }
 
 provider "aws" {
-  profile = "dtrts"
+  profile = "aws"
   region  = "eu-west-2"
 }
