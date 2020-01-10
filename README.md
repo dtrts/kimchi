@@ -32,57 +32,82 @@ Multiple AWS accounts can be set up. Set the AWS_PROFILE environment variable wh
 
 Be a legend, `$ terraform -install-autocomplete`
 
-### Create workspaces:
+Localstack requires Endpoint configuration.
+This project uses the default endpoints and uses the provider configuration from the bottom of this article. https://www.terraform.io/docs/providers/aws/guides/custom-service-endpoints.html
 
-Need separate workspaces to hold the state of each environment.
+### Workspaces
 
-`$ terraform workspace new aws`
+Since we will be building resources in multiple environments the state of each environment needs to be held separately.
+This is achieved using [workspaces](https://www.terraform.io/docs/state/workspaces.html)
+
+`$ terraform workspace new aws` - If using multiple aws accounts, create a workspace for each.
 `$ terraform workspace new localstack`
-
-Make a workspace for each aws profile.
 
 ### Folder structure
 
-This is a at the level of ./terraform relative to the project folder.
-
-Make a symbolic link to give the same structure to localstack and aws :
-`cd terraform/localstack`
-`ln -s ../main.tf main.tf`
-`cd ../localstack`
-`ln -s ../main.tf main.tf`
+The core architecture is contained in a module, and specific connection parameters are held in relevant sub-folders.
+aws/main.tf and localstack/main.tf each pull in the core module.
+When running terraform commands add the foldername to use the relevant connection parameters.
 
 ```
 .
 ├── aws
-│   ├── main.tf -> ../main.tf
-│   ├── provider.tf
-│   └── variables.tf
+│   └── main.tf
 ├── localstack
-│   ├── main.tf -> ../main.tf
-│   ├── provider.tf
-│   └── variables.tf
-├── main.tf
-├──
+│   └── main.tf
+├── modules
+│   └── core
+│       ├── main.tf
+│       └── variables.tf
 ```
 
-The resource definition proper is held in `./terraform/main.tf`
+### Example Usage
 
-There is the option here to make a folder for each aws profile and set the profile name in the provider.tf file
-OR
-Have a single aws folder and set the aws account profile in the env variable.
+The following commands are run in .../kimchi/terraform
 
-### Update resources:
+Update localstack resources:
 
-Long:
-`<name>` here is either localstack or aws
+- `terraform workspace select localstack`
+- `terraform apply localstack`
 
-`$ terraform workspace select <name>`
-`$ terraform plan <name>`
-`$ terraform apply <name>`
+Update singe aws resources:
 
-Short:
-`$ make update-ls`
-`$ make update-aws`
+- Note: aws/main.tf contains the profile attribute in the provider object.
+- `terraform workspace select aws`
+- `terraform apply aws`
+
+Update two aws accounts using the environment variable:
+
+- Note: aws/main.tf _does not_ contain the profile parameter.
+- AWS config has been run for aws_1 and aws_2.
+- `export AWS_PROFILE=aws_1`
+- `terraform workspace select aws_1`
+- `terraform apply aws`
+- `export AWS_PROFILE=aws_2`
+- `terraform workspace select aws_2`
+- `terraform apply aws`
+
+Update two aws accounts using terraform provider config:
+Folder structure:
+
+```
+.
+├── aws_1
+│   └── main.tf
+├── aws_2
+│   └── main.tf
+├── localstack
+│   └── main.tf
+├── modules
+│   └── core
+│       ├── main.tf
+│       └── variables.tf
+```
+
+- `terraform workspace select aws_1`
+- `terraform apply aws`
+- `terraform workspace select aws_2`
+- `terraform apply aws`
 
 ## Lambda
 

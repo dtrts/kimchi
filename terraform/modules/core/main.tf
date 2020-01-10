@@ -5,6 +5,8 @@ resource "aws_s3_bucket" "bucket_1" {
     Name        = "kimchi-ingest"
     Environment = "kimchi"
   }
+
+  force_destroy = true
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -85,4 +87,3 @@ resource "aws_dynamodb_table" "ddb_colours" {
     type = "S"
   }
 }
-

@@ -1,1 +1,0 @@
-variable "localstack" { default = false }
