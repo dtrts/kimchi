@@ -115,6 +115,11 @@ Folder structure:
 - `terraform workspace select aws_2`
 - `terraform apply aws`
 
+### Notes
+
+The localstack variable in the lambdas could be determined by the workspace name using something like: `localstack = "${terraform.workspace == "localstack" ?"true" : "false"}"`
+I have left the variable to be defined in `terraform/{workspacename}/main.tf` for flexibility.
+
 ## Lambda
 
 The example here references the lambda code by zip file. If the zip file is updated and terraform is applied to the environemnt, terraform will update the code since the hash has changed,

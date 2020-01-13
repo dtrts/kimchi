@@ -51,7 +51,7 @@ resource "aws_lambda_function" "lambda_1" {
 
   environment {
     variables = {
-      localstack = var.localstack
+      localstack = "${terraform.workspace == "localstack" ?"true" : "false"}"
     }
   }
 
