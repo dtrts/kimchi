@@ -26,6 +26,10 @@ For this example we will be using two accounts. One AWS proper, and one for loca
 
 Multiple AWS accounts can be set up. Set the AWS_PROFILE environment variable when using the aws cli to replace adding `--profile aws` to every command.
 
+## Localstack
+
+Localstack
+
 ## Terraform
 
 [Terraform](https://www.terraform.io/) is infrastructure as code.
@@ -119,6 +123,8 @@ Folder structure:
 
 The localstack variable in the lambdas could be determined by the workspace name using something like: `localstack = "${terraform.workspace == "localstack" ?"true" : "false"}"`
 I have left the variable to be defined in `terraform/{workspacename}/main.tf` for flexibility.
+
+If localstack is restarted, the default is to destroy all resources, potentially butting the terraform state out of date. `rm -rf ./terraform/terraform.tfstate.d/localstack` to refresh.
 
 ## Lambda
 
