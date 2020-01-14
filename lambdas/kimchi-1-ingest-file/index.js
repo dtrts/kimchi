@@ -17,7 +17,7 @@ const dynamoDB = new AWS.DynamoDB(
 );
 
 exports.handler = async function(event) {
-  console.log("l1-ingest-file : Starting\n");
+  console.log("kimchi-1-ingest-file : Starting\n");
   console.log("Env:", process.env);
 
   console.log("EVENT", event, "\n");
@@ -33,5 +33,5 @@ exports.handler = async function(event) {
 
   // Insert colour if new, send to sns if exist already innit.
 
-  return "l1-ingest-file : Finished\n";
+  return "kimchi-1-ingest-file : Finished\n";
 };

@@ -40,18 +40,18 @@ resource "aws_iam_role_policy_attachment" "lambda-s3" {
 }
 
 resource "aws_lambda_function" "lambda_1" {
-  function_name = "l1-ingest-file"
+  function_name = "kimchi-1-ingest-file"
   role          = aws_iam_role.lambda_role.arn
   handler       = "index.handler"
-  filename      = "../l1-ingest-file/code.zip"
+  filename      = "../lambdas/kimchi-l1-ingest-file/code.zip"
 
-  source_code_hash = filebase64sha256("../l1-ingest-file/code.zip")
+  source_code_hash = filebase64sha256("../lambdas/kimchi-1-ingest-file/code.zip")
 
   runtime = "nodejs12.x"
 
   environment {
     variables = {
-      localstack = "${terraform.workspace == "localstack" ?"true" : "false"}"
+      localstack = var.localstack
     }
   }
 

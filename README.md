@@ -122,7 +122,16 @@ I have left the variable to be defined in `terraform/{workspacename}/main.tf` fo
 
 ## Lambda
 
-The example here references the lambda code by zip file. If the zip file is updated and terraform is applied to the environemnt, terraform will update the code since the hash has changed,
+The example here references the lambda code by zip file. If the zip file is updated and terraform is applied to the environment, terraform will update the code since the hash has changed.
+
+### Deploying
+
+Once you're ready to deploy, navigate to the lambda folder. Lambda-1 has an npm script to create the zip file. `npm run-script build`. Then run terraform the standard way, or using `make update-localstack`.
+
+### Warning:
+
+When accessing localstack s3 the current work around i have found uses the docker ip, not the localstack hostname variable. If you are running multiple containers, you will have to manually update that ip in the code.
+TODO: Find a solution for this.
 
 ## Links
 
@@ -140,8 +149,8 @@ Getting logs:
 Filtering Results:
 
 - The `--query` option allows you to filter results. The specification is here: http://jmespath.org/
-- Get latest Stream `aws logs describe-log-streams --log-group-name /aws/lambda/l1-ingest-file --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text`
+- Get latest Stream `aws logs describe-log-streams --log-group-name /aws/lambda/kimchi-1-ingest-file --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text`
 
 - `export LAMBDA_NAME=l1-ingest-file`
 - `export LATEST_STREAM=$(aws logs describe-log-streams --log-group-name /aws/lambda/${LAMBDA_NAME} --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text)`
-- `aws logs get-log-events --log-group-name /aws/lambda/l1-ingest-file --log-stream-name \$LATEST_STREAM --query events[*].message --output text`
+- `aws logs get-log-events --log-group-name /aws/lambda/kimchi-1-ingest-file --log-stream-name \$LATEST_STREAM --query events[*].message --output text`
