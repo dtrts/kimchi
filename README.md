@@ -157,6 +157,8 @@ Filtering Results:
 - The `--query` option allows you to filter results. The specification is here: http://jmespath.org/
 - Get latest Stream `aws logs describe-log-streams --log-group-name /aws/lambda/kimchi-1-ingest-file --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text`
 
-- `export LAMBDA_NAME=l1-ingest-file`
-- `export LATEST_STREAM=$(aws logs describe-log-streams --log-group-name /aws/lambda/${LAMBDA_NAME} --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text)`
-- `aws logs get-log-events --log-group-name /aws/lambda/kimchi-1-ingest-file --log-stream-name \$LATEST_STREAM --query events[*].message --output text`
+```
+export LAMBDA_NAME=kimchi-1-ingest-file
+export LATEST_STREAM=$(aws logs describe-log-streams --log-group-name /aws/lambda/${LAMBDA_NAME} --query 'sort_by(logStreams, &creationTime)[-1].logStreamName' --output text)
+aws logs get-log-events --log-group-name /aws/lambda/kimchi-1-ingest-file --log-stream-name \$LATEST_STREAM --query events[*].message --output text
+```
