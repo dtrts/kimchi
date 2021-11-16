@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.598.0"
+    "aws-sdk": "^2.814.0"
   },
   "devDependencies": {
     "jest": "^24.9.0"
